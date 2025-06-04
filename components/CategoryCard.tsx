@@ -55,3 +55,56 @@ export default function CategoryCard({ category }: CategoryCardProps) {
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.white,
+    borderRadius: theme.borderRadius.lg,
+    marginBottom: theme.spacing.md,
+    padding: theme.spacing.md,
+    ...theme.shadows.sm,
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: theme.borderRadius.md,
+    backgroundColor: theme.colors.gray[100],
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: theme.spacing.md,
+  },
+  icon: {
+    fontSize: 24,
+  },
+  content: {
+    flex: 1,
+    marginRight: theme.spacing.md,
+  },
+  textContainer: {
+    marginBottom: theme.spacing.xs,
+  },
+  title: {
+    fontFamily: 'Inter-SemiBold',
+    fontSize: theme.typography.sizes.md,
+    color: theme.colors.gray[800],
+    marginBottom: 2,
+  },
+  subtitle: {
+    fontFamily: theme.typography.bodyFont,
+    fontSize: theme.typography.sizes.sm,
+    color: theme.colors.gray[500],
+  },
+  progressBarContainer: {
+    height: 6,
+    backgroundColor: theme.colors.gray[200],
+    borderRadius: theme.borderRadius.full,
+    overflow: 'hidden',
+  },
+  progressBar: {
+    height: '100%',
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.borderRadius.full,
+  },
+});
