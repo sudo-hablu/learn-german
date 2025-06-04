@@ -15,6 +15,7 @@ import {
   Nunito_700Bold
 } from '@expo-google-fonts/nunito';
 import { UserProgressProvider } from '@/context/UserProgressContext';
+import { View } from 'react-native';
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -44,12 +45,14 @@ export default function RootLayout() {
   }
 
   return (
-    <UserProgressProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" options={{ title: 'Oops!' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </UserProgressProvider>
+    <View style={{ flex: 1 }}>
+      <UserProgressProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" options={{ title: 'Oops!' }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </UserProgressProvider>
+    </View>
   );
 }
