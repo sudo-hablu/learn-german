@@ -63,24 +63,26 @@ export const UserProgressProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   // Update word progress
   const updateWordProgress = (wordId: string, mastery: number) => {
-    setWordProgress(prev => ({
-      ...prev,
-      [wordId]: {
-        id: wordId,
-        mastery,
-        lastPracticed: new Date(),
-      },
-    }));
+    setWordProgress(prevProgress => {
+      // Check if this is a newly learned word
+      const isNewWord = !prevProgress[wordId] || prevProgress[wordId].mastery === 0;
+
+      if (isNewWord) {
+        setTotalWordsLearned(prev => prev + 1);
+      }
+
+      return {
+        ...prevProgress,
+        [wordId]: {
+          id: wordId,
+          mastery,
+          lastPracticed: new Date(),
+        },
+      };
+    });
 
     // Update last activity
     setLastActivity(new Date());
-
-    // Check if this is a newly learned word
-    if (!prev[wordId] || prev[wordId].mastery === 0) {
-      setTotalWordsLearned(prev => prev + 1);
-    }
-
-    // Would also update category progress here in a full implementation
   };
 
   // Update streak based on daily activity
