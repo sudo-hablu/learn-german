@@ -1,23 +1,27 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { theme } from '@/constants/theme';
 import { getWordsByCategory } from '@/data/germanWords';
 import { WordCard } from '@/components/WordCard';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function WordsScreen() {
-  const { category } = useLocalSearchParams<{ category: string }>();
+  const router = useRouter();
+  const { theme: currentTheme } = useTheme();
+  const category = router.params?.category as string;
   const words = getWordsByCategory(category as any);
   
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: currentTheme.colors.white }]}>
       <Stack.Screen 
         options={{ 
           headerShown: true,
           title: category?.charAt(0).toUpperCase() + category?.slice(1),
-          headerStyle: { backgroundColor: theme.colors.primary },
-          headerTintColor: theme.colors.white,
-          headerTitleStyle: { fontFamily: theme.typography.headingFont }
+          headerStyle: { backgroundColor: currentTheme.colors.primary },
+          headerTintColor: currentTheme.colors.white,
+          headerTitleStyle: { fontFamily: theme.typography.headingFont },
+          headerLeft: () => null,
         }} 
       />
       
@@ -35,7 +39,6 @@ export default function WordsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.white,
   },
   listContent: {
     padding: theme.spacing.lg,

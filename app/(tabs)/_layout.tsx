@@ -2,15 +2,31 @@ import { Tabs } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Book, ChartBar as BarChart3, Trophy, Settings } from 'lucide-react-native';
 import { theme } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
+  const { theme: currentTheme, isDark } = useTheme();
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.gray[400],
-        tabBarStyle: styles.tabBar,
-        tabBarLabelStyle: styles.tabBarLabel,
+        tabBarActiveTintColor: currentTheme.colors.primary,
+        tabBarInactiveTintColor: currentTheme.colors.gray[400],
+        tabBarStyle: [
+          styles.tabBar,
+          {
+            backgroundColor: currentTheme.colors.white,
+            borderTopColor: currentTheme.colors.gray[200],
+            height: 60 + insets.bottom,
+            paddingBottom: 8 + insets.bottom,
+          }
+        ],
+        tabBarLabelStyle: [
+          styles.tabBarLabel,
+          { color: isDark ? currentTheme.colors.gray[400] : currentTheme.colors.gray[600] }
+        ],
         headerShown: false,
         tabBarHideOnKeyboard: true,
       }}>
@@ -58,10 +74,6 @@ const styles = StyleSheet.create({
   tabBar: {
     elevation: 0,
     borderTopWidth: 1,
-    borderTopColor: theme.colors.gray[200],
-    height: 60,
-    paddingBottom: 8,
-    paddingTop: 8,
   },
   tabBarLabel: {
     fontFamily: 'Inter-SemiBold',
