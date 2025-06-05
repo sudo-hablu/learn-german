@@ -54,7 +54,11 @@ const initialWordProgress: Record<string, WordProgress> = {
   '15': { id: '15', mastery: 50, lastPracticed: new Date() },
 };
 
-export function UserProgressProvider({ children }: { children: React.ReactNode }) {
+type UserProgressProviderProps = {
+  children: React.ReactNode;
+};
+
+export function UserProgressProvider({ children }: UserProgressProviderProps) {
   const [wordProgress, setWordProgress] = useState<Record<string, WordProgress>>(initialWordProgress);
   const [categoryProgress, setCategoryProgress] = useState<CategoryProgress[]>(initialCategoryProgress);
   const [streak, setStreak] = useState<number>(3);
