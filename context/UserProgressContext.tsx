@@ -54,7 +54,7 @@ const initialWordProgress: Record<string, WordProgress> = {
   '15': { id: '15', mastery: 50, lastPracticed: new Date() },
 };
 
-export const UserProgressProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function UserProgressProvider({ children }: { children: React.ReactNode }) {
   const [wordProgress, setWordProgress] = useState<Record<string, WordProgress>>(initialWordProgress);
   const [categoryProgress, setCategoryProgress] = useState<CategoryProgress[]>(initialCategoryProgress);
   const [streak, setStreak] = useState<number>(3);
@@ -131,7 +131,7 @@ export const UserProgressProvider: React.FC<{ children: React.ReactNode }> = ({ 
       {children}
     </UserProgressContext.Provider>
   );
-};
+}
 
 // Custom hook to use the progress context
 export const useUserProgress = () => {

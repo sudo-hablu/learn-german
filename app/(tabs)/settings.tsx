@@ -4,84 +4,85 @@ import { Stack } from 'expo-router';
 import { theme } from '@/constants/theme';
 import { languages } from '@/constants/languages';
 import { Bell, Volume2, Sun, Moon, Globe, CircleHelp as HelpCircle, FileQuestion, LogOut } from 'lucide-react-native';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function SettingsScreen() {
   const [dailyReminders, setDailyReminders] = React.useState(true);
   const [soundEffects, setSoundEffects] = React.useState(true);
-  const [darkMode, setDarkMode] = React.useState(false);
+  const { isDark, toggleTheme, theme: currentTheme } = useTheme();
   
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: currentTheme.colors.white }]}>
       <Stack.Screen options={{ headerShown: false }} />
       
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Settings</Text>
+      <View style={[styles.header, { backgroundColor: currentTheme.colors.gray[100] }]}>
+        <Text style={[styles.headerTitle, { color: currentTheme.colors.gray[800] }]}>Settings</Text>
       </View>
       
       <ScrollView style={styles.content}>
         {/* App Preferences */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>App Preferences</Text>
+          <Text style={[styles.sectionTitle, { color: currentTheme.colors.gray[800] }]}>App Preferences</Text>
           
           <View style={styles.settingItem}>
             <View style={styles.settingItemLeft}>
-              <Bell size={20} color={theme.colors.gray[600]} style={styles.settingIcon} />
-              <Text style={styles.settingLabel}>Daily Reminders</Text>
+              <Bell size={20} color={currentTheme.colors.gray[600]} style={styles.settingIcon} />
+              <Text style={[styles.settingLabel, { color: currentTheme.colors.gray[800] }]}>Daily Reminders</Text>
             </View>
             <Switch
               value={dailyReminders}
               onValueChange={setDailyReminders}
-              trackColor={{ false: theme.colors.gray[300], true: theme.colors.primary }}
-              thumbColor={theme.colors.white}
+              trackColor={{ false: currentTheme.colors.gray[300], true: currentTheme.colors.primary }}
+              thumbColor={currentTheme.colors.white}
             />
           </View>
           
           <View style={styles.settingItem}>
             <View style={styles.settingItemLeft}>
-              <Volume2 size={20} color={theme.colors.gray[600]} style={styles.settingIcon} />
-              <Text style={styles.settingLabel}>Sound Effects</Text>
+              <Volume2 size={20} color={currentTheme.colors.gray[600]} style={styles.settingIcon} />
+              <Text style={[styles.settingLabel, { color: currentTheme.colors.gray[800] }]}>Sound Effects</Text>
             </View>
             <Switch
               value={soundEffects}
               onValueChange={setSoundEffects}
-              trackColor={{ false: theme.colors.gray[300], true: theme.colors.primary }}
-              thumbColor={theme.colors.white}
+              trackColor={{ false: currentTheme.colors.gray[300], true: currentTheme.colors.primary }}
+              thumbColor={currentTheme.colors.white}
             />
           </View>
           
           <View style={styles.settingItem}>
             <View style={styles.settingItemLeft}>
-              {darkMode ? (
-                <Moon size={20} color={theme.colors.gray[600]} style={styles.settingIcon} />
+              {isDark ? (
+                <Moon size={20} color={currentTheme.colors.gray[600]} style={styles.settingIcon} />
               ) : (
-                <Sun size={20} color={theme.colors.gray[600]} style={styles.settingIcon} />
+                <Sun size={20} color={currentTheme.colors.gray[600]} style={styles.settingIcon} />
               )}
-              <Text style={styles.settingLabel}>Dark Mode</Text>
+              <Text style={[styles.settingLabel, { color: currentTheme.colors.gray[800] }]}>Dark Mode</Text>
             </View>
             <Switch
-              value={darkMode}
-              onValueChange={setDarkMode}
-              trackColor={{ false: theme.colors.gray[300], true: theme.colors.primary }}
-              thumbColor={theme.colors.white}
+              value={isDark}
+              onValueChange={toggleTheme}
+              trackColor={{ false: currentTheme.colors.gray[300], true: currentTheme.colors.primary }}
+              thumbColor={currentTheme.colors.white}
             />
           </View>
         </View>
         
         {/* Languages */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Languages</Text>
+          <Text style={[styles.sectionTitle, { color: currentTheme.colors.gray[800] }]}>Languages</Text>
           
-          <Text style={styles.sectionSubtitle}>Current Language:</Text>
-          <View style={styles.currentLanguage}>
+          <Text style={[styles.sectionSubtitle, { color: currentTheme.colors.gray[500] }]}>Current Language:</Text>
+          <View style={[styles.currentLanguage, { backgroundColor: currentTheme.colors.primary + '10' }]}>
             <Text style={styles.languageFlag}>🇩🇪</Text>
             <View style={styles.languageInfo}>
-              <Text style={styles.languageName}>German</Text>
-              <Text style={styles.languageNative}>Deutsch</Text>
+              <Text style={[styles.languageName, { color: currentTheme.colors.gray[800] }]}>German</Text>
+              <Text style={[styles.languageNative, { color: currentTheme.colors.gray[500] }]}>Deutsch</Text>
             </View>
           </View>
           
-          <Text style={styles.sectionSubtitle}>Available Languages:</Text>
+          <Text style={[styles.sectionSubtitle, { color: currentTheme.colors.gray[500] }]}>Available Languages:</Text>
           {languages.filter(lang => lang.id !== 'de').map(language => (
             <View 
               key={language.id} 
@@ -94,12 +95,14 @@ export default function SettingsScreen() {
               <View style={styles.languageInfo}>
                 <Text style={[
                   styles.languageName,
+                  { color: currentTheme.colors.gray[800] },
                   !language.isAvailable && styles.languageNameDisabled
                 ]}>
                   {language.name}
                 </Text>
                 <Text style={[
                   styles.languageNative,
+                  { color: currentTheme.colors.gray[500] },
                   !language.isAvailable && styles.languageNativeDisabled
                 ]}>
                   {language.nativeName}
@@ -107,7 +110,7 @@ export default function SettingsScreen() {
               </View>
               {!language.isAvailable && (
                 <View style={styles.comingSoonBadge}>
-                  <Text style={styles.comingSoonText}>Coming Soon</Text>
+                  <Text style={[styles.comingSoonText, { color: currentTheme.colors.gray[600] }]}>Coming Soon</Text>
                 </View>
               )}
             </View>
@@ -116,29 +119,29 @@ export default function SettingsScreen() {
         
         {/* Help & Support */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Help & Support</Text>
+          <Text style={[styles.sectionTitle, { color: currentTheme.colors.gray[800] }]}>Help & Support</Text>
           
           <TouchableOpacity style={styles.supportItem}>
-            <HelpCircle size={20} color={theme.colors.gray[600]} style={styles.supportIcon} />
-            <Text style={styles.supportLabel}>Help Center</Text>
+            <HelpCircle size={20} color={currentTheme.colors.gray[600]} style={styles.supportIcon} />
+            <Text style={[styles.supportLabel, { color: currentTheme.colors.gray[800] }]}>Help Center</Text>
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.supportItem}>
-            <FileQuestion size={20} color={theme.colors.gray[600]} style={styles.supportIcon} />
-            <Text style={styles.supportLabel}>FAQ</Text>
+            <FileQuestion size={20} color={currentTheme.colors.gray[600]} style={styles.supportIcon} />
+            <Text style={[styles.supportLabel, { color: currentTheme.colors.gray[800] }]}>FAQ</Text>
           </TouchableOpacity>
         </View>
         
         {/* Account */}
         <View style={styles.section}>
           <TouchableOpacity style={styles.logoutButton}>
-            <LogOut size={20} color={theme.colors.error} style={styles.logoutIcon} />
-            <Text style={styles.logoutText}>Log Out</Text>
+            <LogOut size={20} color={currentTheme.colors.error} style={styles.logoutIcon} />
+            <Text style={[styles.logoutText, { color: currentTheme.colors.error }]}>Log Out</Text>
           </TouchableOpacity>
         </View>
         
         <View style={styles.versionContainer}>
-          <Text style={styles.versionText}>Version 1.0.0</Text>
+          <Text style={[styles.versionText, { color: currentTheme.colors.gray[400] }]}>Version 1.0.0</Text>
         </View>
       </ScrollView>
     </View>
@@ -148,18 +151,15 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.white,
   },
   header: {
     paddingTop: 60,
     paddingHorizontal: theme.spacing.lg,
     paddingBottom: theme.spacing.md,
-    backgroundColor: theme.colors.gray[100],
   },
   headerTitle: {
     fontFamily: theme.typography.headingFont,
     fontSize: theme.typography.sizes.xxl,
-    color: theme.colors.gray[800],
   },
   content: {
     flex: 1,
@@ -171,14 +171,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontFamily: 'Nunito-Bold',
     fontSize: theme.typography.sizes.lg,
-    color: theme.colors.gray[800],
     marginBottom: theme.spacing.md,
     marginTop: theme.spacing.md,
   },
   sectionSubtitle: {
     fontFamily: 'Inter-SemiBold',
     fontSize: theme.typography.sizes.sm,
-    color: theme.colors.gray[500],
     marginBottom: theme.spacing.sm,
   },
   settingItem: {
@@ -199,13 +197,11 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontFamily: theme.typography.bodyFont,
     fontSize: theme.typography.sizes.md,
-    color: theme.colors.gray[800],
   },
   currentLanguage: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: theme.spacing.md,
-    backgroundColor: theme.colors.primary + '10', // 10% opacity
     borderRadius: theme.borderRadius.md,
     marginBottom: theme.spacing.md,
   },
@@ -229,7 +225,6 @@ const styles = StyleSheet.create({
   languageName: {
     fontFamily: 'Inter-SemiBold',
     fontSize: theme.typography.sizes.md,
-    color: theme.colors.gray[800],
   },
   languageNameDisabled: {
     color: theme.colors.gray[500],
@@ -237,7 +232,6 @@ const styles = StyleSheet.create({
   languageNative: {
     fontFamily: theme.typography.bodyFont,
     fontSize: theme.typography.sizes.sm,
-    color: theme.colors.gray[500],
   },
   languageNativeDisabled: {
     color: theme.colors.gray[400],
@@ -251,7 +245,6 @@ const styles = StyleSheet.create({
   comingSoonText: {
     fontFamily: 'Inter-SemiBold',
     fontSize: theme.typography.sizes.xs,
-    color: theme.colors.gray[600],
   },
   supportItem: {
     flexDirection: 'row',
@@ -266,7 +259,6 @@ const styles = StyleSheet.create({
   supportLabel: {
     fontFamily: theme.typography.bodyFont,
     fontSize: theme.typography.sizes.md,
-    color: theme.colors.gray[800],
   },
   logoutButton: {
     flexDirection: 'row',
@@ -283,7 +275,6 @@ const styles = StyleSheet.create({
   logoutText: {
     fontFamily: 'Inter-SemiBold',
     fontSize: theme.typography.sizes.md,
-    color: theme.colors.error,
   },
   versionContainer: {
     alignItems: 'center',
@@ -292,6 +283,5 @@ const styles = StyleSheet.create({
   versionText: {
     fontFamily: theme.typography.bodyFont,
     fontSize: theme.typography.sizes.sm,
-    color: theme.colors.gray[400],
   },
 });
