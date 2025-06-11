@@ -9,8 +9,8 @@ import StreakBadge from '@/components/StreakBadge';
 export default function ProgressScreen() {
   const { streak, totalWordsLearned, categoryProgress } = useUserProgress();
   
-  // Calculate total progress percentage
-  const totalProgress = (totalWordsLearned / 2000) * 100;
+  // Calculate total progress percentage with fallback
+  const totalProgress = ((totalWordsLearned || 0) / 2000) * 100;
   
   return (
     <View style={styles.container}>
@@ -32,21 +32,21 @@ export default function ProgressScreen() {
         <View style={styles.overallProgressContainer}>
           <View style={styles.progressCircleContainer}>
             <View style={styles.progressCircle}>
-              <Text style={styles.progressPercentage}>{Math.round(totalProgress)}%</Text>
+              <Text style={styles.progressPercentage}>{String(Math.round(totalProgress) || 0)}%</Text>
             </View>
           </View>
           
           <View style={styles.progressStatsContainer}>
             <View style={styles.progressStat}>
-              <Text style={styles.progressStatNumber}>{totalWordsLearned}</Text>
+              <Text style={styles.progressStatNumber}>{totalWordsLearned || 0}</Text>
               <Text style={styles.progressStatLabel}>Words Learned</Text>
             </View>
             <View style={styles.progressStat}>
-              <Text style={styles.progressStatNumber}>{2000 - totalWordsLearned}</Text>
+              <Text style={styles.progressStatNumber}>{String(2000 - (totalWordsLearned || 0))}</Text>
               <Text style={styles.progressStatLabel}>Words Remaining</Text>
             </View>
             <View style={styles.progressStat}>
-              <Text style={styles.progressStatNumber}>{streak}</Text>
+              <Text style={styles.progressStatNumber}>{streak || 0}</Text>
               <Text style={styles.progressStatLabel}>Day Streak</Text>
             </View>
           </View>
@@ -79,7 +79,7 @@ export default function ProgressScreen() {
                 <View 
                   style={[
                     styles.categoryProgressFill, 
-                    {width: `${completionPercentage}%`}
+                    {width: `${String(completionPercentage || 0)}%`}
                   ]} 
                 />
               </View>

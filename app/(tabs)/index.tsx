@@ -27,18 +27,18 @@ export default function LearnScreen() {
       {/* Progress Summary */}
       <View style={styles.progressSummary}>
         <View style={styles.progressItem}>
-          <Text style={styles.progressNumber}>{totalWordsLearned}</Text>
+          <Text style={styles.progressNumber}>{totalWordsLearned || 0}</Text>
           <Text style={styles.progressLabel}>Words</Text>
         </View>
         <View style={styles.progressDivider} />
         <View style={styles.progressItem}>
-          <Text style={styles.progressNumber}>{streak}</Text>
+          <Text style={styles.progressNumber}>{streak || 0}</Text>
           <Text style={styles.progressLabel}>Day Streak</Text>
         </View>
         <View style={styles.progressDivider} />
         <View style={styles.progressItem}>
           <Text style={styles.progressNumber}>
-            {Math.round((totalWordsLearned / 2000) * 100)}%
+            {String(Math.round(((totalWordsLearned || 0) / 2000) * 100) || 0)}%
           </Text>
           <Text style={styles.progressLabel}>Complete</Text>
         </View>
